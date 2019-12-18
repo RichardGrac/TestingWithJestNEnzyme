@@ -1,11 +1,7 @@
 import React from 'react'
-import Enzyme from 'enzyme'
-import EnzymeAdapter from 'enzyme-adapter-react-16'
 
 import Congrats from './Congrats'
-import {findByTestAttr, setUp} from '../test/testUtils'
-
-Enzyme.configure({ adapter: new EnzymeAdapter() })
+import {checkProps, findByTestAttr, setUp} from '../test/testUtils'
 
 describe('Congrats tests', () => {
     test('renders without error', () => {
@@ -24,5 +20,10 @@ describe('Congrats tests', () => {
         const wrapper = setUp(Congrats, {success: true})
         const congratsDisplay = findByTestAttr(wrapper, 'congrats-display')
         expect(congratsDisplay.text().length).not.toBe(0)
+    })
+
+    test('does not throw warning with expected props', () => {
+        const expectedProps = { success: true }
+        checkProps(Congrats, expectedProps, 'success')
     })
 })
