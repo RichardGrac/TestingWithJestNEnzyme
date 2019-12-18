@@ -12,7 +12,7 @@ const Congrats = (props) => {
     return (
         <div data-test={'congrats-display'}>
             {success && (
-                <React.Fragment>Congratulations, you've assert the word</React.Fragment>
+                <div className={'alert alert-success'}>Congratulations, you've assert the word</div>
             )}
         </div>
     )

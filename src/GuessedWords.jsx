@@ -13,8 +13,8 @@ const GuessedWords = (props) => {
             ) : (
                 <div data-test={'attempts'}>
                     <h3>Guessed words</h3>
-                    <table>
-                        <thead>
+                    <table className={'table table-sm'}>
+                        <thead className={'thead-light'}>
                             <tr>
                                 <th>Word</th>
                                 <th>Matching Letters</th>
@@ -42,10 +42,6 @@ GuessedWords.propTypes = {
             letterMatchCount: PropTypes.number.isRequired,
         })
     ).isRequired
-}
-
-GuessedWords.defaultProps = {
-
 }
 
 export default GuessedWords
