@@ -9,10 +9,14 @@ import PropTypes from 'prop-types'
  */
 const Congrats = (props) => {
     const {success} = props
+
     return (
         <div data-test={'congrats-display'}>
             {success && (
-                <div className={'alert alert-success'}>Congratulations, you've assert the word</div>
+                <div className={'alert alert-success'}>
+                    <h3>Congratulations!</h3>
+                    You asserted the word
+                </div>
             )}
         </div>
     )

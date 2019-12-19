@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Congrats from './Congrats'
-import {checkProps, findByTestAttr, setUp} from '../test/testUtils'
+import {checkProps, findByTestAttr, setUp} from '../../../test/testUtils'
 
 describe('Congrats tests', () => {
     test('renders without error', () => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import {setUp, findByTestAttr, checkProps} from '../test/testUtils'
+import {setUp, findByTestAttr, checkProps} from '../../../test/testUtils'
 
 import GuessedWords from './GuessedWords'
 
