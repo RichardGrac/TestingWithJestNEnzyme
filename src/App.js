@@ -8,7 +8,7 @@ class App extends Component {
   render() {
     return (
         <div className="App container">
-          <h1 className={'text-center'}>Jotto</h1>
+          <h1 className={'text-center'}>The App</h1>
           <Congrats success />
           <GuessedWords guessedWords={[
             {guessedWord: 'train', letterMatchCount: 3},
