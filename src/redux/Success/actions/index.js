@@ -12,7 +12,7 @@ export const guessWord = (guessedWord) => {
         if (secretWord === guessedWord) {
             dispatch({type: CORRECT_GUESS, success: true})
         }
-
+        
         dispatch({type: ADD_GUESSED_WORD, payload: {guessedWord, letterMatchCount}})
     }
 }

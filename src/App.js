@@ -4,10 +4,15 @@ import Congrats from "./Components/Congrats/Congrats";
 import GuessedWords from "./Components/GuessedWords/GuessedWords";
 import {connect} from "react-redux";
 import Input from "./Components/Input/input";
+import {bindActionCreators} from 'redux'
 
 class App extends Component {
 
-  render() {
+    componentDidMount() {
+
+    }
+
+    render() {
 
     return (
         <div className="App container">
@@ -27,4 +32,11 @@ const mapStateToProps = state => {
         success: state.successReducer.success
     }
 }
-export default connect(mapStateToProps)(App);
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({
+
+    }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,4 +1,4 @@
-import {ADD_GUESSED_WORD} from '../../constants'
+import {ADD_GUESSED_WORD, SET_SECRET_WORD} from '../../constants'
 
 const initialState = {
     guessedWords: [],
@@ -13,11 +13,18 @@ const initialState = {
  */
 const guessedWordsReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_SECRET_WORD:
+            return {
+                ...state,
+                secretWord: action.payload
+            }
+
         case ADD_GUESSED_WORD:
             return {
                 ...state,
                 guessedWords: [...state.guessedWords, action.payload ]
             }
+
         default:
             return state
     }
