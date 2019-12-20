@@ -6,7 +6,7 @@ const Input = props => {
     const [inputValue, setInputValue] = useState('')
 
     const handleWordMatchVeryfication = () => {
-        console.log('Hi')
+
     }
 
     return (
@@ -16,8 +16,13 @@ const Input = props => {
                     <input type="text"
                            value={inputValue}
                            onChange={(e) => setInputValue(e.target.value)}
+                           data-test={'guess-input'}
                     />
-                    <button type={'button'}>Verify</button>
+                    <button type={'button'}
+                            data-test={'verification-button'}
+                    >
+                        Verify
+                    </button>
                 </form>
             )}
         </div>

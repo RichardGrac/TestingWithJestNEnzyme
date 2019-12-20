@@ -3,30 +3,33 @@ import {findByTestAttr, setUpConnectedComponent, storeFactory} from "../../../te
 import Input from "./input";
 import {shallow} from "enzyme";
 
-const setup = (initialState = {}) => {
+const setUp = (initialState = {}) => {
     const store = storeFactory(initialState)
-    const wrapper = setUpConnectedComponent(Input, store).dive().dive()
-    return wrapper
+    return setUpConnectedComponent(Input, store).dive().dive()
 }
 
 describe('Input field tests, word not guessed', () => {
 
     let wrapper
     beforeEach(() => {
-        const initialState = {success: true}
-        wrapper = setup(initialState)
+        const initialState = {successReducer: {success: false}}
+        wrapper = setUp(initialState)
     })
 
     test('renders component without error', () => {
-        console.log(wrapper.debug())
         const component = findByTestAttr(wrapper, 'input-form')
         expect(component.length).toBe(1)
-
     })
 
-    test.todo('renders input box')
+    test('renders input box', () => {
+        const component = findByTestAttr(wrapper, 'guess-input')
+        expect(component.length).toBe(1)
+    })
 
-    test.todo('renders submit button')
+    test('renders submit button', () => {
+        const component = findByTestAttr(wrapper, 'verification-button')
+        expect(component.length).toBe(1)
+    })
 })
 
 describe('Input field tests, word guessed', () => {
