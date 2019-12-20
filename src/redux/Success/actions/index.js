@@ -7,8 +7,9 @@ import {getLetterMatchCount} from '../../../helpers'
  */
 export const guessWord = (guessedWord) => {
     return (dispatch, getState) => {
-        const letterMatchCount = getLetterMatchCount(guessedWord, getState().guessedWordsReducer.secretWord)
-        if (letterMatchCount === guessedWord.length) {
+        const secretWord = getState().guessedWordsReducer.secretWord
+        const letterMatchCount = getLetterMatchCount(guessedWord, secretWord)
+        if (secretWord === guessedWord) {
             dispatch({type: CORRECT_GUESS, success: true})
         }
 
