@@ -2,11 +2,12 @@ import {shallow} from 'enzyme'
 import React from 'react'
 import {assertPropTypes} from 'check-prop-types'
 
-import rootReducer from "../src/redux";
-import {createStore} from "redux";
+import rootReducer from '../src/redux';
+import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk'
 
 export const storeFactory = (initialState) => {
-    return createStore(rootReducer, initialState)
+    return createStore(rootReducer, initialState, applyMiddleware(thunk))
 }
 
 export const setUp = (Component, props = {}, state = null) => {
