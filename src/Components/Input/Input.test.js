@@ -4,8 +4,8 @@ import Input from "./input";
 import {shallow} from "enzyme";
 
 const setUp = (initialState = {}) => {
-    const store = storeFactory(initialState)
-    return setUpConnectedComponent(Input, store).dive().dive()
+    const mockedStore = storeFactory(initialState)
+    return setUpConnectedComponent(Input, mockedStore).dive().dive()
 }
 
 describe('Input field tests, word not guessed', () => {
@@ -33,9 +33,25 @@ describe('Input field tests, word not guessed', () => {
 })
 
 describe('Input field tests, word guessed', () => {
-    test.todo('renders component without error')
 
-    test.todo('does not render input box')
+    let wrapper
+    beforeEach(() => {
+        const initialState = {successReducer: {success: true}}
+        wrapper = setUp(initialState)
+    })
 
-    test.todo('does not render submit button')
+    test('renders component without error', () => {
+        const component = findByTestAttr(wrapper, 'component-input')
+        expect(component.length).toBe(1)
+    })
+
+    test('does not render input box', () => {
+        const component = findByTestAttr(wrapper, 'guess-input')
+        expect(component.length).toBeFalsy()
+    })
+
+    test('does not render submit button', () => {
+        const component = findByTestAttr(wrapper, 'verification-button')
+        expect(component.length).toBeFalsy()
+    })
 })
