@@ -4,11 +4,11 @@ import axios from 'axios'
 export const getSecretWord = () => {
     return async dispatch => {
         try {
-            const r = await fetch(`http://www.mocky.io/v2/5dfd42933100008600c96d6f`)
+            const r = await fetch(`http://www.mocky.io/v2/5dfea4fb32000035005aef14`)
             const data = await r.json()
             dispatch({
                 type: SET_SECRET_WORD,
-                payload: data.words[Math.floor(Math.random() * 5)]
+                payload: data.randomWord
             })
 
         } catch (e) {
@@ -20,18 +20,18 @@ export const getSecretWord = () => {
 export const getSecretWordAxios = () => {
     return async dispatch => {
         try {
-            return axios.get(`http://www.mocky.io/v2/5dfd42933100008600c96d6f`)
+            return axios.get(`http://www.mocky.io/v2/5dfea4fb32000035005aef14`)
                 .then(response => {
                     dispatch({
                         type: SET_SECRET_WORD,
-                        payload: response.words[Math.floor(Math.random() * 5)]
+                        payload: response.data.randomWord
                     })
                 })
                 .catch(error => {
                     console.error(error)
                 })
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
     }
 }

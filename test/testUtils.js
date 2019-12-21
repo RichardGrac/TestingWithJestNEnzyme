@@ -7,7 +7,9 @@ import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk'
 
 export const storeFactory = (initialState) => {
-    return createStore(rootReducer, initialState, applyMiddleware(thunk))
+    // return createStore(rootReducer, initialState, applyMiddleware(thunk))
+    const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
+    return createStoreWithMiddleware(rootReducer, initialState)
 }
 
 export const setUp = (Component, props = {}, state = null) => {
