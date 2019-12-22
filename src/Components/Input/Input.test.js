@@ -1,7 +1,7 @@
 import React from 'react'
 import {findByTestAttr, setUpConnectedComponent, storeFactory} from "../../../test/testUtils";
 import Input from "./input";
-import {shallow} from "enzyme";
+import {shallow} from 'enzyme'
 
 const setUp = (initialState = {}) => {
     const mockedStore = storeFactory(initialState)
@@ -53,5 +53,22 @@ describe('Input field tests, word guessed', () => {
     test('does not render submit button', () => {
         const component = findByTestAttr(wrapper, 'verification-button')
         expect(component.length).toBeFalsy()
+    })
+})
+
+describe('It will test Redux props', () => {
+    test('It should has access to `success` prop', () => {
+        const initialState = {successReducer: {success: true}}
+        const mockedStore = storeFactory(initialState)
+        const wrapper = shallow(<Input store={mockedStore} />).dive()
+        const successProp = wrapper.prop('success')
+        expect(successProp).toBe(initialState.successReducer.success)
+    })
+
+    test('It should be receiving `guessWord` action creator', () => {
+        const mockedStore = storeFactory()
+        const wrapper = shallow(<Input store={mockedStore} />).dive()
+        const guessWordActionCreator = wrapper.prop('guessWord')
+        expect(guessWordActionCreator).toBeInstanceOf(Function)
     })
 })

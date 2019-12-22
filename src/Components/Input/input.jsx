@@ -1,5 +1,7 @@
 import React, {useState, Fragment} from "react";
 import {connect} from "react-redux";
+import {bindActionCreators} from 'redux'
+import {guessWord} from '../../redux/Success/actions'
 
 const Input = props => {
     const {success} = props
@@ -31,8 +33,14 @@ const Input = props => {
 
 const mapStateToProps = state => {
     return {
-        success: state.successReducer.success
+        success: state.successReducer.success,
     }
 }
 
-export default connect(mapStateToProps)(Input)
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({
+        guessWord
+    }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Input)
