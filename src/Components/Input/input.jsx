@@ -7,7 +7,8 @@ export const Input = props => {
     const {success, guessWord} = props
     const [inputValue, setInputValue] = useState('')
 
-    const handleWordMatchVerification = () => {
+    const handleWordMatchVerification = (e) => {
+        e.preventDefault()
         if (inputValue !== '') {
             guessWord(inputValue)
         }
@@ -24,7 +25,7 @@ export const Input = props => {
                     />
                     <button type={'button'}
                             data-test={'verification-button'}
-                            onClick={() => handleWordMatchVerification()}
+                            onClick={(e) => handleWordMatchVerification(e)}
                     >
                         Verify
                     </button>

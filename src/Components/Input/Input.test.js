@@ -2,6 +2,7 @@ import React from 'react'
 import {findByTestAttr, setUpConnectedComponent, storeFactory} from "../../../test/testUtils";
 import InputDefault, {Input} from "./input";
 import {shallow} from 'enzyme'
+import guessedWordsReducer from '../../redux/GuessedWords/reducers'
 
 const setUp = (initialState = {}) => {
     const mockedStore = storeFactory(initialState)
@@ -74,8 +75,11 @@ describe('It will test Redux props', () => {
 })
 
 describe('Submit test', () => {
-    test('It should call `guessWord` A.C. when click the Verify button', () => {
-        const guessWordACMock = jest.fn()
+    let guessWordACMock
+    const anArgument = 'Test arg'
+
+    beforeEach(() => {
+        guessWordACMock = jest.fn()
         const props = {
             guessWord: guessWordACMock,
             success: false,
@@ -83,29 +87,17 @@ describe('Submit test', () => {
         const wrapper = shallow(<Input {...props} />)
 
         const inputComponent = findByTestAttr(wrapper, 'guess-input')
-        inputComponent.simulate('change', {target: {value: 'A test string'}})
+        inputComponent.simulate('change', {target: {value: anArgument}})
 
         const verifyButton = findByTestAttr(wrapper, 'verification-button')
-        verifyButton.simulate('click')
+        verifyButton.simulate('click', { preventDefault() {} })
+    })
 
+    test('It should call `guessWord` A.C. when click the Verify button', () => {
         expect(guessWordACMock.mock.calls.length).toBe(1)
     })
 
     test('`guessWord` A.C. receives same word as type in input', () => {
-        const guessedWordFnMock = jest.fn()
-        const props = {
-            guessWord: guessedWordFnMock,
-            success: false,
-        }
-        const expectedParameter = 'Test arg'
-        const wrapper = shallow(<Input {...props} />)
-
-        const inputComponent = findByTestAttr(wrapper, 'guess-input')
-        inputComponent.simulate('change', {target: {value: expectedParameter}})
-        
-        const verifyComponent = findByTestAttr(wrapper, 'verification-button')
-        verifyComponent.simulate('click')
-        
-        expect(guessedWordFnMock.mock.calls[0]).toEqual([expectedParameter])
+        expect(guessWordACMock.mock.calls[0]).toEqual([anArgument])
     })
 })
