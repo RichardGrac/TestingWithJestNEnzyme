@@ -3,12 +3,14 @@ import {connect} from "react-redux";
 import {bindActionCreators} from 'redux'
 import {guessWord} from '../../redux/Success/actions'
 
-const Input = props => {
-    const {success} = props
+export const Input = props => {
+    const {success, guessWord} = props
     const [inputValue, setInputValue] = useState('')
 
-    const handleWordMatchVeryfication = () => {
-
+    const handleWordMatchVerification = () => {
+        if (inputValue !== '') {
+            guessWord(inputValue)
+        }
     }
 
     return (
@@ -22,6 +24,7 @@ const Input = props => {
                     />
                     <button type={'button'}
                             data-test={'verification-button'}
+                            onClick={() => handleWordMatchVerification()}
                     >
                         Verify
                     </button>
