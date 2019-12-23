@@ -1,4 +1,4 @@
-import {ADD_GUESSED_WORD, SET_SECRET_WORD} from '../../constants'
+import {ADD_GUESSED_WORD, RESET_GUESSED_WORDS, SET_SECRET_WORD} from '../../constants'
 
 const initialState = {
     guessedWords: [],
@@ -23,6 +23,12 @@ const guessedWordsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 guessedWords: [...state.guessedWords, action.payload ]
+            }
+
+        case RESET_GUESSED_WORDS:
+            return {
+                ...state,
+                guessedWords: []
             }
 
         default:

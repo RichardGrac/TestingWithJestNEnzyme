@@ -7,6 +7,7 @@ import Input from "./Components/Input/input";
 import {bindActionCreators} from 'redux'
 import {getSecretWordAxios} from './redux/GuessedWords/actions'
 import TotalGuesses from './Components/TotalGuesses'
+import {resetGame} from './redux/NewGame/actions'
 
 export class App extends Component {
 
@@ -15,13 +16,13 @@ export class App extends Component {
     }
 
     render() {
-        const {success, guessedWords} = this.props
+        const {success, guessedWords, resetGame} = this.props
 
         return (
             <div className="App container">
                 <h1 className={'text-center'}>The App</h1>
                 <small>The secret word is: {this.props.secretWord}</small>
-                <Congrats success={success}/>
+                <Congrats success={success} resetGame={resetGame} />
                 <Input/>
                 <GuessedWords guessedWords={guessedWords}/>
                 <TotalGuesses />
@@ -40,7 +41,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators({
-        getSecretWordAxios
+        getSecretWordAxios,
+        resetGame,
     }, dispatch)
 }
 

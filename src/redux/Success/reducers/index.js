@@ -1,4 +1,4 @@
-import {CORRECT_GUESS} from "../../constants";
+import {CORRECT_GUESS, RESET_SUCCESS} from "../../constants";
 
 const initialState = {
     success: false
@@ -11,6 +11,13 @@ const successReducer = (state = initialState, action) => {
                 ...state,
                 success: action.success
             }
+
+        case RESET_SUCCESS:
+            return {
+                ...state,
+                success: false
+            }
+
         default:
             return state
     }

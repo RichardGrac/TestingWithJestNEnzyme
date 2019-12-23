@@ -13,7 +13,7 @@ describe('Get secret word from server', () => {
     })
 
     test('It should add the Secret Word to the Store', () => {
-        const apiResponse = { 'randomWord': 'work' }
+        const apiResponse = { 'randomWord': 'train' }
         const store = storeFactory()
 
         moxios.wait(() => {

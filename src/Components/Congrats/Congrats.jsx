@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import PropTypes from 'prop-types'
 
 /**
@@ -8,15 +8,23 @@ import PropTypes from 'prop-types'
  *  @returns {JSX.Element} - Rendered component
  */
 const Congrats = (props) => {
-    const {success} = props
+    const {success, resetGame} = props
 
     return (
         <div data-test={'congrats-display'}>
             {success && (
-                <div className={'alert alert-success'}>
-                    <h3>Congratulations!</h3>
-                    You asserted the word
-                </div>
+                <Fragment>
+                    <div className={'alert alert-success'}>
+                        <h3>Congratulations!</h3>
+                        You asserted the word
+                    </div>
+                    <button data-test={'new-game'}
+                            className={'btn btn-primary'}
+                            onClick={resetGame}
+                    >
+                        New Game
+                    </button>
+                </Fragment>
             )}
         </div>
     )
