@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import Input from "./Components/Input/input";
 import {bindActionCreators} from 'redux'
 import {getSecretWordAxios} from './redux/GuessedWords/actions'
+import TotalGuesses from './Components/TotalGuesses'
 
 export class App extends Component {
 
@@ -23,6 +24,7 @@ export class App extends Component {
                 <Congrats success={success}/>
                 <Input/>
                 <GuessedWords guessedWords={guessedWords}/>
+                <TotalGuesses />
             </div>
         )
     }

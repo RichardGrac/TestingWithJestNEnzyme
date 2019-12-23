@@ -16,6 +16,7 @@ const GuessedWords = (props) => {
                     <table className={'table table-sm'}>
                         <thead className={'thead-light'}>
                             <tr>
+                                <th>#</th>
                                 <th>Word</th>
                                 <th>Matching Letters</th>
                             </tr>
@@ -23,6 +24,7 @@ const GuessedWords = (props) => {
                         <tbody>
                             {guessedWords.map((word, i) => (
                                 <tr data-test={'guessed-nodes'} key={i}>
+                                    <td>{i + 1}</td>
                                     <td>{word.guessedWord}</td>
                                     <td>{word.letterMatchCount}</td>
                                 </tr>
