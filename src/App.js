@@ -19,6 +19,7 @@ export class App extends Component {
         return (
             <div className="App container">
                 <h1 className={'text-center'}>The App</h1>
+                <small>The secret word is: {this.props.secretWord}</small>
                 <Congrats success={success}/>
                 <Input/>
                 <GuessedWords guessedWords={guessedWords}/>
@@ -31,6 +32,7 @@ const mapStateToProps = state => {
     return {
         success: state.successReducer.success,
         guessedWords: state.guessedWordsReducer.guessedWords,
+        secretWord: state.guessedWordsReducer.secretWord,
     }
 }
 

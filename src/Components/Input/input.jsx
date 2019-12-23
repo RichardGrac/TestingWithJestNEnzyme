@@ -11,6 +11,7 @@ export const Input = props => {
         e.preventDefault()
         if (inputValue !== '') {
             guessWord(inputValue)
+            setInputValue('')
         }
     }
 

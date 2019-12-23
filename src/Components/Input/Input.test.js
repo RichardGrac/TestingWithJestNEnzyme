@@ -75,8 +75,10 @@ describe('It will test Redux props', () => {
 })
 
 describe('Submit test', () => {
-    let guessWordACMock
     const anArgument = 'Test arg'
+    let guessWordACMock
+    let inputComponent
+    let wrapper
 
     beforeEach(() => {
         guessWordACMock = jest.fn()
@@ -84,9 +86,9 @@ describe('Submit test', () => {
             guessWord: guessWordACMock,
             success: false,
         }
-        const wrapper = shallow(<Input {...props} />)
+        wrapper = shallow(<Input {...props} />)
 
-        const inputComponent = findByTestAttr(wrapper, 'guess-input')
+        inputComponent = findByTestAttr(wrapper, 'guess-input')
         inputComponent.simulate('change', {target: {value: anArgument}})
 
         const verifyButton = findByTestAttr(wrapper, 'verification-button')
@@ -99,5 +101,10 @@ describe('Submit test', () => {
 
     test('`guessWord` A.C. receives same word as type in input', () => {
         expect(guessWordACMock.mock.calls[0]).toEqual([anArgument])
+    })
+
+    test('Text box is clean after Submit', () => {
+        inputComponent = findByTestAttr(wrapper, 'guess-input')
+        expect(inputComponent.props().value).toBe('')
     })
 })
