@@ -16,18 +16,23 @@ export const Input = props => {
     return (
         <div data-test={'component-input'}>
             {!success && (
-                <form data-test={'input-form'}>
+                <form data-test={'input-form'} className={'input-group my-3'}>
                     <input type="text"
+                           className={'form-control'}
+                           placeholder={'Guess the secret word'}
                            value={inputValue}
                            onChange={(e) => setInputValue(e.target.value)}
                            data-test={'guess-input'}
                     />
-                    <button type={'button'}
-                            data-test={'verification-button'}
-                            onClick={(e) => handleWordMatchVerification(e)}
-                    >
-                        Verify
-                    </button>
+                    <div className={'input-group-append'}>
+                        <button type={'button'}
+                                data-test={'verification-button'}
+                                className={'btn btn-outline-secondary'}
+                                onClick={(e) => handleWordMatchVerification(e)}
+                        >
+                            Verify
+                        </button>
+                    </div>
                 </form>
             )}
         </div>
