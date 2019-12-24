@@ -1,5 +1,5 @@
 import moxios from 'moxios'
-import getSecretWord from './index'
+import hookActions from './index'
 
 describe('Moxios tests', () => {
     beforeEach(() => {
@@ -21,7 +21,7 @@ describe('Moxios tests', () => {
         })
         
         const mockSecretWord = jest.fn()
-        await getSecretWord(mockSecretWord)
+        await hookActions.getSecretWord(mockSecretWord)
         
         expect(mockSecretWord).toHaveBeenCalledWith(apiResponse.randomWord)
     })

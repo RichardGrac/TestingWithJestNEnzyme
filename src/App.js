@@ -1,49 +1,29 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './App.css';
-import Congrats from "./Components/Congrats/Congrats";
-import GuessedWords from "./Components/GuessedWords/GuessedWords";
-import {connect} from "react-redux";
-import Input from "./Components/Input/input";
-import {bindActionCreators} from 'redux'
-import {getSecretWordAxios} from './redux/GuessedWords/actions'
-import TotalGuesses from './Components/TotalGuesses'
-import {resetGame} from './redux/NewGame/actions'
+import guessedWordsReducer from './redux/GuessedWords/reducers'
+import {SET_SECRET_WORD} from './redux/constants'
+import hookActions from './context/actions'
 
-export class App extends Component {
+export const App = (props) =>{
+    const [state, dispatch] = React.useReducer(guessedWordsReducer, {guessedWords: [], secretWord: ''})
 
-    componentDidMount() {
-        this.props.getSecretWordAxios()
+    const setSecretWord = secretWord => {
+        dispatch({ type: SET_SECRET_WORD, payload: secretWord })
     }
 
-    render() {
-        const {success, guessedWords, resetGame} = this.props
+    React.useEffect(() => {
+        handleGetSecretWord()
+    }, [])
 
-        return (
-            <div className="App container">
-                <h1 className={'text-center'}>The App</h1>
-                <small>The secret word is: {this.props.secretWord}</small>
-                <Congrats success={success} resetGame={resetGame} />
-                <Input/>
-                <GuessedWords guessedWords={guessedWords}/>
-                <TotalGuesses />
-            </div>
-        )
+    const handleGetSecretWord = async () => {
+        await hookActions.getSecretWord(setSecretWord)
     }
+
+    return (
+        <div className="App container" data-test={'app-component'}>
+
+        </div>
+    )
 }
 
-const mapStateToProps = state => {
-    return {
-        success: state.successReducer.success,
-        guessedWords: state.guessedWordsReducer.guessedWords,
-        secretWord: state.guessedWordsReducer.secretWord,
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return bindActionCreators({
-        getSecretWordAxios,
-        resetGame,
-    }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App
