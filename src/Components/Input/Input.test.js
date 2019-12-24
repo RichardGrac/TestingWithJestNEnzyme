@@ -21,13 +21,22 @@ describe('Input state field', () => {
         const mockSetInputValue = jest.fn()
         React.useState = jest.fn(() => ['', mockSetInputValue])
 
-        const props = {
-            success: false
-        }
+        const props = { success: false }
         const wrapper = shallow(<Input {...props} />)
         const inputBox = findByTestAttr(wrapper, 'guess-input')
         inputBox.simulate('change', {target: {value: 'train'}})
 
         expect(mockSetInputValue).toHaveBeenCalledWith('train')
+    })
+
+    test('input field is cleared after click on the Submit button', () => {
+        const mockSetInputValue = jest.fn()
+        React.useState = jest.fn(() => ['Train', mockSetInputValue])
+
+        const wrapper = shallow(<Input guessWord={jest.fn()} />)
+        const submitButton = findByTestAttr(wrapper, 'verification-button')
+        submitButton.simulate('click', { preventDefault(){} })
+
+        expect(mockSetInputValue).toHaveBeenCalledWith('')
     })
 })
