@@ -1,11 +1,9 @@
-import React, {useState, Fragment} from "react";
-import {connect} from "react-redux";
-import {bindActionCreators} from 'redux'
-import {guessWord} from '../../redux/Success/actions'
+import React from "react";
+import PropTypes from 'prop-types'
 
 export const Input = props => {
     const {success, guessWord} = props
-    const [inputValue, setInputValue] = useState('')
+    const [inputValue, setInputValue] = React.useState('')
 
     const handleWordMatchVerification = (e) => {
         e.preventDefault()
@@ -36,16 +34,8 @@ export const Input = props => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        success: state.successReducer.success,
-    }
+Input.propTypes = {
+    secretWord: PropTypes.string,
 }
 
-const mapDispatchToProps = dispatch => {
-    return bindActionCreators({
-        guessWord
-    }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Input)
+export default Input
