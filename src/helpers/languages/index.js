@@ -1,5 +1,6 @@
-const languageStrings = {
+export const languageStrings = {
     en: {
+        language: 'English',
         congrats: 'Congratulations! You guessed the word',
         verify: 'Verify',
         guessPrompt: 'Try to guess the secret word!',
@@ -7,8 +8,10 @@ const languageStrings = {
         guessColumnHeader: 'Guessed Words',
         guessedWords: 'Guesses',
         matchingLettersColumnHeader: 'Matching Letters',
+        newGame: 'New Game',
     },
     es: {
+        language: 'Español',
         congrats: 'Felicidades! Adivinaste la palabra secreta',
         submit: 'Verificar',
         guessPrompt: 'Intenta adivinar la palabra secreta!',
@@ -16,6 +19,7 @@ const languageStrings = {
         guessColumnHeader: 'Palabras adivinadas',
         guessedWords: 'Intentos',
         matchingLettersColumnHeader: 'Letras empatadas',
+        newGame: 'Jugar de nuevo',
     }
 }
 

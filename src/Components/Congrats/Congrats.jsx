@@ -1,5 +1,7 @@
 import React, {Fragment} from 'react'
 import PropTypes from 'prop-types'
+import getStringByLanguage from '../../helpers/languages'
+import languageContext from '../../context/LanguageContext'
 
 /**
  *  Functional react component for congratulatory message
@@ -9,20 +11,20 @@ import PropTypes from 'prop-types'
  */
 const Congrats = (props) => {
     const {success, resetGame} = props
+    const language = React.useContext(languageContext)
 
     return (
         <div data-test={'congrats-display'}>
             {success && (
                 <Fragment>
                     <div className={'alert alert-success'}>
-                        <h3>Congratulations!</h3>
-                        You asserted the word
+                        <h4>{getStringByLanguage(language, 'congrats')}</h4>
                     </div>
                     <button data-test={'new-game'}
                             className={'btn btn-primary'}
                             onClick={resetGame}
                     >
-                        New Game
+                        {getStringByLanguage(language, 'newGame')}
                     </button>
                 </Fragment>
             )}

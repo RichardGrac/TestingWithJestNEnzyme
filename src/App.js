@@ -8,25 +8,42 @@ import {bindActionCreators} from 'redux'
 import {getSecretWordAxios} from './redux/GuessedWords/actions'
 import TotalGuesses from './Components/TotalGuesses'
 import {resetGame} from './redux/NewGame/actions'
+import LanguagePicker from './Components/LanguagePicker'
+import languageContext from './context/LanguageContext'
 
 export class App extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            language: 'en'
+        }
+    }
+
     componentDidMount() {
         this.props.getSecretWordAxios()
+    }
+
+    changeLanguage = lang => {
+        this.setState({language: lang})
+        console.log('changeLanguage to: ' + lang)
     }
 
     render() {
         const {success, guessedWords, resetGame} = this.props
 
         return (
-            <div className="App container">
-                <h1 className={'text-center'}>The App</h1>
-                <small>The secret word is: {this.props.secretWord}</small>
-                <Congrats success={success} resetGame={resetGame} />
-                <Input/>
-                <GuessedWords guessedWords={guessedWords}/>
-                <TotalGuesses />
-            </div>
+            <languageContext.Provider value={this.state.language}>
+                <div className="App container">
+                    <h1 className={'text-center'}>The App</h1>
+                    <LanguagePicker setLanguage={this.changeLanguage} />
+                    <small>The secret word is: {this.props.secretWord}</small>
+                    <Congrats success={success} resetGame={resetGame} />
+                    <Input/>
+                    <GuessedWords guessedWords={guessedWords}/>
+                    <TotalGuesses />
+                </div>
+            </languageContext.Provider>
         )
     }
 }

@@ -2,10 +2,12 @@ import React from 'react'
 
 import Congrats from './Congrats'
 import {checkProps, findByTestAttr, setUp, storeFactory} from '../../../test/testUtils'
-import {shallow} from 'enzyme'
+import {mount, shallow} from 'enzyme'
 import moxios from 'moxios'
 import {getSecretWordAxios} from '../../redux/GuessedWords/actions'
 import {resetGame} from '../../redux/NewGame/actions'
+import languageContext from '../../context/LanguageContext'
+import getStringByLanguage, {languageStrings} from '../../helpers/languages'
 
 describe('Congrats tests', () => {
     test('renders without error', () => {
@@ -103,5 +105,34 @@ describe('`New Game` functionality tests', () => {
                     })
         })
 
+    })
+})
+
+describe('Congrats Language tests', () => {
+    let setup
+    
+    beforeEach(() => {
+        setup = (success, language) => {
+            success = success || false
+            language = language || 'en'
+
+            return mount(
+                <languageContext.Provider value={language}>
+                    <Congrats success={success} />
+                </languageContext.Provider>
+            )
+        }
+    })
+    
+    test('Correctly renders congrats string in english', () => {
+        const wrapper = setup(true, 'en')
+        const successMessage = findByTestAttr(wrapper, 'congrats-display')
+        expect(successMessage.text()).toContain(getStringByLanguage('en', 'congrats'))
+    })
+
+    test('Correctly renders congrats string in spanish', () => {
+        const wrapper = setup(true, 'es')
+        const successMessage = findByTestAttr(wrapper, 'congrats-display')
+        expect(successMessage.text()).toContain(getStringByLanguage('es', 'congrats'))
     })
 })

@@ -1,4 +1,4 @@
-import {shallow} from 'enzyme'
+import {mount, shallow} from 'enzyme'
 import React from 'react'
 import {assertPropTypes} from 'check-prop-types'
 
@@ -14,6 +14,16 @@ export const storeFactory = (initialState) => {
 
 export const setUp = (Component, props = {}, state = null) => {
     const s = shallow(<Component {...props}/>)
+    if (state) s.setState(state)
+    return s
+}
+
+export const setUpWithContext = (Component, Context, contextValue, props = {}, state = null) => {
+    const s = mount(
+        <Context.Provider value={contextValue}>
+            <Component {...props}/>
+        </Context.Provider>
+    )
     if (state) s.setState(state)
     return s
 }

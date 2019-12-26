@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from "react";
+import React, {useState} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux'
 import {guessWord} from '../../redux/Success/actions'
