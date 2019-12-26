@@ -26,7 +26,6 @@ export class App extends Component {
 
     changeLanguage = lang => {
         this.setState({language: lang})
-        console.log('changeLanguage to: ' + lang)
     }
 
     render() {

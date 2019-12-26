@@ -13,9 +13,9 @@ export const languageStrings = {
     es: {
         language: 'Español',
         congrats: 'Felicidades! Adivinaste la palabra secreta',
-        submit: 'Verificar',
+        verify: 'Verificar',
         guessPrompt: 'Intenta adivinar la palabra secreta!',
-        guessInputPlaceholder: 'Adivina...',
+        guessInputPlaceholder: 'Adivina la palabra secreta',
         guessColumnHeader: 'Palabras adivinadas',
         guessedWords: 'Intentos',
         matchingLettersColumnHeader: 'Letras empatadas',

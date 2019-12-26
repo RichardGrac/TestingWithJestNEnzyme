@@ -1,8 +1,9 @@
 import React from 'react'
-import {findByTestAttr, setUpConnectedComponent, storeFactory} from "../../../test/testUtils";
+import {findByTestAttr, setUpConnectedComponent, setUpWithContext, storeFactory} from "../../../test/testUtils";
 import InputDefault, {Input} from "./input";
-import {shallow} from 'enzyme'
-import guessedWordsReducer from '../../redux/GuessedWords/reducers'
+import {mount, shallow} from 'enzyme'
+import {languageStrings} from '../../helpers/languages'
+import languageContext from '../../context/LanguageContext'
 
 const setUp = (initialState = {}) => {
     const mockedStore = storeFactory(initialState)
@@ -106,5 +107,32 @@ describe('Submit test', () => {
     test('Text box is clean after Submit', () => {
         inputComponent = findByTestAttr(wrapper, 'guess-input')
         expect(inputComponent.props().value).toBe('')
+    })
+})
+
+describe('Input Language tests', () => {
+
+    test('Verify that placeholders is in EN Language', () => {
+        const wrapper = setUpWithContext(Input, languageContext, 'en', {success: false})
+        const inputTextComponent = findByTestAttr(wrapper, 'guess-input')
+        expect(inputTextComponent.at(0).props().placeholder).toEqual(languageStrings.en.guessInputPlaceholder)
+    })
+
+    test('Verify that placeholders is in ES Language', () => {
+        const wrapper = setUpWithContext(Input, languageContext, 'es', {success: false})
+        const inputTextComponent = findByTestAttr(wrapper, 'guess-input')
+        expect(inputTextComponent.at(0).props().placeholder).toEqual(languageStrings.es.guessInputPlaceholder)
+    })
+
+    test('Verify that Verify button shows text in english', () => {
+        const wrapper = setUpWithContext(Input, languageContext, 'en', {success: false})
+        const inputTextComponent = findByTestAttr(wrapper, 'verification-button')
+        expect(inputTextComponent.text()).toEqual(languageStrings.en.verify)
+    })
+
+    test('Verify that Verify button shows text in spanish', () => {
+        const wrapper = setUpWithContext(Input, languageContext, 'es', {success: false})
+        const inputTextComponent = findByTestAttr(wrapper, 'verification-button')
+        expect(inputTextComponent.text()).toEqual(languageStrings.es.verify)
     })
 })
