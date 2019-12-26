@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {setUp, findByTestAttr, checkProps} from '../../../test/testUtils'
 
 import GuessedWords from './GuessedWords'
+import getStringByLanguage from '../../helpers/languages'
 
 const defaultProps = {
     guessedWords: [
@@ -54,5 +55,29 @@ describe('if there are words guessed', () => {
     test('correct number of guessed words', () => {
         const guessedWordsNodes = findByTestAttr(wrapper, 'guessed-nodes')
         expect(guessedWordsNodes.length).toBe(defaultProps.guessedWords.length)
+    })
+})
+
+describe('Language context for GuessedWords', () => {
+    beforeEach(() => {
+        React.useContext = jest.fn().mockReturnValue('es')
+    })
+
+    afterEach(() => {
+        React.useContext = require('react').useContext
+    })
+
+    test('Guess prompt in ES', () => {
+        const wrapper = setUp(GuessedWords, {guessedWords: []})
+        const component = findByTestAttr(wrapper, 'guessedWords-component')
+        expect(component.text())
+            .toContain(getStringByLanguage('es', 'guessPrompt'))
+    })
+
+    test('Guessed Words in ES', () => {
+        const wrapper = setUp(GuessedWords, defaultProps)
+        const component = findByTestAttr(wrapper, 'guess-column-header')
+        expect(component.text())
+            .toContain(getStringByLanguage('es', 'guessColumnHeader'))
     })
 })

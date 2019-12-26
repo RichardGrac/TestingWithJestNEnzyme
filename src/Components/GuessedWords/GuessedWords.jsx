@@ -1,18 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import languageContext from '../../context/LanguageContext'
+import getStringByLanguage from '../../helpers/languages'
 
 const GuessedWords = (props) => {
     const {guessedWords} = props
+    const language = React.useContext(languageContext)
 
     return (
         <div data-test={'guessedWords-component'}>
             {guessedWords.length < 1 ? (
                 <div data-test={'instructions'}>
-                    Try to guess the secret word
+                    {getStringByLanguage(language, 'guessPrompt')}
                 </div>
             ) : (
                 <div data-test={'attempts'}>
-                    <h3>Guessed words</h3>
+                    <h3 data-test={'guess-column-header'}>
+                        {getStringByLanguage(language, 'guessColumnHeader')}
+                    </h3>
                     <table className={'table table-sm'}>
                         <thead className={'thead-light'}>
                             <tr>
