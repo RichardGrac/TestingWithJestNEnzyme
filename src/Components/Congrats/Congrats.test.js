@@ -1,29 +1,32 @@
 import React from 'react'
 
 import Congrats from './Congrats'
-import {checkProps, findByTestAttr, setUp, storeFactory} from '../../../test/testUtils'
+import {checkProps, findByTestAttr, setUpWithContextPattern, storeFactory} from '../../../test/testUtils'
 import {mount, shallow} from 'enzyme'
 import moxios from 'moxios'
 import {getSecretWordAxios} from '../../redux/GuessedWords/actions'
 import {resetGame} from '../../redux/NewGame/actions'
 import languageContext from '../../context/LanguageContext'
 import getStringByLanguage, {languageStrings} from '../../helpers/languages'
+import {SuccessProvider} from '../../context/SuccessContext'
 
 describe('Congrats tests', () => {
+    const providerValue = [false, jest.fn()]
+
     test('renders without error', () => {
-        const wrapper = setUp(Congrats)
+        const wrapper = setUpWithContextPattern(Congrats, SuccessProvider, providerValue)
         const congratsDisplay = findByTestAttr(wrapper, 'congrats-display')
         expect(congratsDisplay.length).toBe(1)
     })
 
-    test('renders no text when `success` prop is false', () => {
-        const wrapper = setUp(Congrats, {success: false})
+    test('renders no text when `success` context value is false', () => {
+        const wrapper = setUpWithContextPattern(Congrats, SuccessProvider, providerValue)
         const congratsDisplay = findByTestAttr(wrapper, 'congrats-display')
         expect(congratsDisplay.text().length).toBe(0)
     })
 
-    test('renders non-empty congrats message when `success` props is true', () => {
-        const wrapper = setUp(Congrats, {success: true})
+    test('renders non-empty congrats message when `success` context value is true', () => {
+        const wrapper = setUpWithContextPattern(Congrats, SuccessProvider, [true, jest.fn()])
         const congratsDisplay = findByTestAttr(wrapper, 'congrats-display')
         expect(congratsDisplay.text().length).not.toBe(0)
     })
@@ -37,11 +40,21 @@ describe('Congrats tests', () => {
 describe('`New Game` functionality tests', () => {
 
     let wrapper
+    let resetGameMock = jest.fn()
+
     beforeEach(() => {
         const props = {
-            success: true
+            resetGame: resetGameMock,
         }
-        wrapper = shallow(<Congrats {...props} />)
+        wrapper = mount(
+            <SuccessProvider value={[true, jest.fn()]}>
+                <Congrats {...props} />
+            </SuccessProvider>
+        )
+    })
+
+    afterEach(() => {
+        resetGameMock.mockClear()
     })
 
     test('It renders correctly', () => {
@@ -50,16 +63,12 @@ describe('`New Game` functionality tests', () => {
     })
 
     test('`resetGame` A.C. is called when click the button', () => {
-        const resetGameMock = jest.fn()
-        wrapper.setProps({resetGame: resetGameMock})
-
         const newGameButton = findByTestAttr(wrapper, 'new-game')
         newGameButton.simulate('click')
         expect(resetGameMock.mock.calls.length).toBe(1)
     })
 
     test('Global state is clean after resetGame A.C. is dispatched', () => {
-        const resetGameMock = jest.fn()
         const storeProps = {
             guessedWordsReducer: {
                 guessedWords: [
@@ -74,7 +83,6 @@ describe('`New Game` functionality tests', () => {
             }
         }
         const store = storeFactory(storeProps)
-        wrapper.setProps({resetGame: resetGameMock})
 
         const newGameButton = findByTestAttr(wrapper, 'new-game')
         newGameButton.simulate('click')
@@ -118,7 +126,9 @@ describe('Congrats Language tests', () => {
 
             return mount(
                 <languageContext.Provider value={language}>
-                    <Congrats success={success} />
+                    <SuccessProvider value={[success, jest.fn()]}>
+                        <Congrats />
+                    </SuccessProvider>
                 </languageContext.Provider>
             )
         }

@@ -28,6 +28,16 @@ export const setUpWithContext = (Component, Context, contextValue, props = {}, s
     return s
 }
 
+export const setUpWithContextPattern = (Component, Provider, providerValue, props = {}, state = null) => {
+    const s = mount(
+        <Provider value={[...providerValue]}>
+            <Component {...props} />
+        </Provider>
+    )
+    if (state) s.setState(state)
+    return s
+}
+
 export const setUpConnectedComponent = (Component, store, props = {}, state = null) => {
     const s = shallow(<Component store={store} />)
     if (props) s.setProps(props)

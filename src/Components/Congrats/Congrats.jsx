@@ -2,16 +2,17 @@ import React, {Fragment} from 'react'
 import PropTypes from 'prop-types'
 import getStringByLanguage from '../../helpers/languages'
 import languageContext from '../../context/LanguageContext'
+import {useSuccess} from '../../context/SuccessContext'
 
 /**
  *  Functional react component for congratulatory message
  *  @function
- *  @param {object} props - React props
  *  @returns {JSX.Element} - Rendered component
  */
 const Congrats = (props) => {
-    const {success, resetGame} = props
+    const {resetGame} = props
     const language = React.useContext(languageContext)
+    const [success] = useSuccess()
 
     return (
         <div data-test={'congrats-display'}>
@@ -33,7 +34,7 @@ const Congrats = (props) => {
 }
 
 Congrats.propTypes = {
-    success: PropTypes.bool,
+    resetGame: PropTypes.func,
 }
 
 export default Congrats

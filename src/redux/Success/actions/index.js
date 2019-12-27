@@ -1,18 +1,18 @@
-import {ADD_GUESSED_WORD, CORRECT_GUESS} from "../../constants";
 import {getLetterMatchCount} from '../../../helpers'
+import React from 'react'
 
 /**
- * @function setSuccess
- * @returns {object} - An action object with type `CORRECT_GUESS`
+ * @function guessWord
+ * @returns {object} - An object with success and letterMatchCount
  */
-export const guessWord = (guessedWord) => {
-    return (dispatch, getState) => {
-        const secretWord = getState().guessedWordsReducer.secretWord
+export const guessWord = (guessedWord, secretWord) => {
         const letterMatchCount = getLetterMatchCount(guessedWord, secretWord)
-        if (secretWord === guessedWord) {
-            dispatch({type: CORRECT_GUESS, success: true})
+        let success = false
+
+        if (secretWord === guessedWord) success = true
+
+        return {
+            success,
+            letterMatchCount
         }
-        
-        dispatch({type: ADD_GUESSED_WORD, payload: {guessedWord, letterMatchCount}})
-    }
 }

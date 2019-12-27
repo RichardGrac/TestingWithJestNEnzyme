@@ -2,26 +2,39 @@ import React, {Component} from 'react';
 import './App.css';
 import Congrats from "./Components/Congrats/Congrats";
 import GuessedWords from "./Components/GuessedWords/GuessedWords";
-import {connect} from "react-redux";
 import Input from "./Components/Input/input";
-import {bindActionCreators} from 'redux'
 import {getSecretWordAxios} from './redux/GuessedWords/actions'
 import TotalGuesses from './Components/TotalGuesses'
-import {resetGame} from './redux/NewGame/actions'
 import LanguagePicker from './Components/LanguagePicker'
 import languageContext from './context/LanguageContext'
+import {SuccessProvider} from './context/SuccessContext'
+import {GuessedWordsProvider} from './context/GuessedWordsContext'
+import axios from 'axios'
+import {SECRET_WORD_API} from './shared'
 
 export class App extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            language: 'en'
+            language: 'en',
+            secretWord: ''
         }
     }
 
     componentDidMount() {
-        this.props.getSecretWordAxios()
+        this.getSecretWord()
+    }
+
+    async getSecretWord() {
+        axios.get(SECRET_WORD_API)
+            .then(response => {
+                this.setState({secretWord: response.data.randomWord})
+            })
+            .catch(error => {
+                console.error(error)
+                this.setState({secretWord: 'Not retrieved'})
+            })
     }
 
     changeLanguage = lang => {
@@ -29,37 +42,24 @@ export class App extends Component {
     }
 
     render() {
-        const {success, guessedWords, resetGame} = this.props
-
         return (
             <languageContext.Provider value={this.state.language}>
                 <div className="App container">
                     <h1 className={'text-center'}>The App</h1>
                     <LanguagePicker setLanguage={this.changeLanguage} />
-                    <small>The secret word is: {this.props.secretWord}</small>
-                    <Congrats success={success} resetGame={resetGame} />
-                    <Input/>
-                    <GuessedWords guessedWords={guessedWords}/>
-                    <TotalGuesses />
+                    <small>The secret word is: {this.state.secretWord}</small>
+                    <GuessedWordsProvider>
+                        <SuccessProvider>
+                            <Congrats resetGame={() => {}} />
+                            <Input secretWord={this.state.secretWord} />
+                        </SuccessProvider>
+                        <GuessedWords />
+                        <TotalGuesses />
+                    </GuessedWordsProvider>
                 </div>
             </languageContext.Provider>
         )
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        success: state.successReducer.success,
-        guessedWords: state.guessedWordsReducer.guessedWords,
-        secretWord: state.guessedWordsReducer.secretWord,
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return bindActionCreators({
-        getSecretWordAxios,
-        resetGame,
-    }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App
