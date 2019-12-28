@@ -1,20 +1,20 @@
 import React from 'react';
-import {connect} from 'react-redux'
+import languageContext from '../../context/LanguageContext'
+import getStringByLanguage from '../../helpers/languages'
+import {useGuessedWords} from '../../context/GuessedWordsContext'
 
-export const TotalGuesses = props => {
+export const TotalGuesses = () => {
+    const language = React.useContext(languageContext)
+    const [guessedWords] = useGuessedWords()
+
     return (
         <div data-test={'total-guesses-component'}>
-            Total Number of Guesses:{' '}
+            {getStringByLanguage(language, 'totalGuesses')}:{' '}
             <b data-test={'guess-count'}>
-                {props.guessedWords.length}
+                {guessedWords.length}
             </b>
         </div>
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        guessedWords: state.guessedWordsReducer.guessedWords,
-    }
-}
-export default connect(mapStateToProps)(TotalGuesses)
+export default TotalGuesses

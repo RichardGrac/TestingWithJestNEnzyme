@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import getStringByLanguage from '../../helpers/languages'
 import languageContext from '../../context/LanguageContext'
 import {useSuccess} from '../../context/SuccessContext'
+import {useGuessedWords} from '../../context/GuessedWordsContext'
 
 /**
  *  Functional react component for congratulatory message
@@ -12,7 +13,14 @@ import {useSuccess} from '../../context/SuccessContext'
 const Congrats = (props) => {
     const {resetGame} = props
     const language = React.useContext(languageContext)
-    const [success] = useSuccess()
+    const [, setGuessedWords] = useGuessedWords()
+    const [success, setSuccess] = useSuccess()
+
+    const onHandleResetGame = () => {
+        resetGame()
+        setGuessedWords([])
+        setSuccess(false)
+    }
 
     return (
         <div data-test={'congrats-display'}>
@@ -23,7 +31,7 @@ const Congrats = (props) => {
                     </div>
                     <button data-test={'new-game'}
                             className={'btn btn-primary'}
-                            onClick={resetGame}
+                            onClick={() => onHandleResetGame()}
                     >
                         {getStringByLanguage(language, 'newGame')}
                     </button>

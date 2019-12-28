@@ -1,5 +1,4 @@
 import {getLetterMatchCount} from '../../../helpers'
-import React from 'react'
 
 /**
  * @function guessWord

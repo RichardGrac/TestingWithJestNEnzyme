@@ -22,8 +22,8 @@ const GuessedWords = () => {
                         <thead className={'thead-light'}>
                             <tr>
                                 <th>#</th>
-                                <th>Word</th>
-                                <th>Matching Letters</th>
+                                <th>{getStringByLanguage(language, 'guessedWordsColumnHeader')}</th>
+                                <th>{getStringByLanguage(language, 'matchingLettersColumnHeader')}</th>
                             </tr>
                         </thead>
                         <tbody>

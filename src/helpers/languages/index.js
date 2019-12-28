@@ -5,10 +5,11 @@ export const languageStrings = {
         verify: 'Verify',
         guessPrompt: 'Try to guess the secret word!',
         guessInputPlaceholder: 'Enter guess',
-        guessColumnHeader: 'Guessed Words',
-        guessedWords: 'Guesses',
+        guessedWordsColumnHeader: 'Guesses',
         matchingLettersColumnHeader: 'Matching Letters',
         newGame: 'New Game',
+        totalGuesses: 'Total Number of Guesses',
+        helpSecretWord: 'The secret word is',
     },
     es: {
         language: 'Español',
@@ -16,10 +17,11 @@ export const languageStrings = {
         verify: 'Verificar',
         guessPrompt: 'Intenta adivinar la palabra secreta!',
         guessInputPlaceholder: 'Adivina la palabra secreta',
-        guessColumnHeader: 'Palabras adivinadas',
-        guessedWords: 'Intentos',
+        guessedWordsColumnHeader: 'Intentos',
         matchingLettersColumnHeader: 'Letras empatadas',
         newGame: 'Jugar de nuevo',
+        totalGuesses: 'Total de intentos',
+        helpSecretWord: 'La palabra secreta es',
     }
 }
 
