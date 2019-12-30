@@ -1,7 +1,9 @@
 import {TotalGuesses} from './index'
-import {shallow} from 'enzyme'
+import {mount} from 'enzyme'
 import {findByTestAttr} from '../../../test/testUtils'
 import React from 'react'
+import {GuessedWordsProvider} from '../../context/GuessedWordsContext'
+import languageContext from '../../context/LanguageContext'
 
 describe('Total Guesses tests', () => {
 
@@ -15,7 +17,13 @@ describe('Total Guesses tests', () => {
                 {guessedWord: 'Attempt 3', letterMatchCount: 2},
             ]
         }
-        wrapper = shallow(<TotalGuesses {...props} />)
+        wrapper = mount(
+            <languageContext.Provider value={'en'}>
+                <GuessedWordsProvider value={[props.guessedWords, jest.fn()]}>
+                    <TotalGuesses {...props} />
+                </GuessedWordsProvider>
+            </languageContext.Provider>
+        )
     })
 
     test('It renders correctly', () => {

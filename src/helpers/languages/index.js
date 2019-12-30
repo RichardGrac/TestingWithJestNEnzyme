@@ -5,6 +5,7 @@ export const languageStrings = {
         verify: 'Verify',
         guessPrompt: 'Try to guess the secret word!',
         guessInputPlaceholder: 'Enter guess',
+        guessTableHeader: 'Try to guess the secret word',
         guessedWordsColumnHeader: 'Guesses',
         matchingLettersColumnHeader: 'Matching Letters',
         newGame: 'New Game',
@@ -17,6 +18,7 @@ export const languageStrings = {
         verify: 'Verificar',
         guessPrompt: 'Intenta adivinar la palabra secreta!',
         guessInputPlaceholder: 'Adivina la palabra secreta',
+        guessTableHeader: 'Adivina la palabra secreta',
         guessedWordsColumnHeader: 'Intentos',
         matchingLettersColumnHeader: 'Letras empatadas',
         newGame: 'Jugar de nuevo',
@@ -27,7 +29,7 @@ export const languageStrings = {
 
 function getStringByLanguage(languageCode, stringKey, strings = languageStrings) {
     if (!strings[languageCode] || !strings[languageCode][stringKey]){
-        console.warn(`String not found form key [${stringKey}] for language [${languageCode}]`)
+        console.warn(`String not found for key [${stringKey}] for language [${languageCode}]`)
         return strings.en[stringKey]
     }
 

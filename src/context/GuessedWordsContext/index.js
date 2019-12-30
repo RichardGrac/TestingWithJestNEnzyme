@@ -1,6 +1,6 @@
 import React from 'react'
 
-const GuessedWordsContext = React.createContext(false)
+export const GuessedWordsContext = React.createContext(false)
 
 export function useGuessedWords() {
     const context = React.useContext(GuessedWordsContext)

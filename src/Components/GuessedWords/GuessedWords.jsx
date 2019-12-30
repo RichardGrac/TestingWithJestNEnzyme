@@ -16,7 +16,7 @@ const GuessedWords = () => {
             ) : (
                 <div data-test={'attempts'}>
                     <h3 data-test={'guess-column-header'}>
-                        {getStringByLanguage(language, 'guessColumnHeader')}
+                        {getStringByLanguage(language, 'guessTableHeader')}
                     </h3>
                     <table className={'table table-sm'}>
                         <thead className={'thead-light'}>

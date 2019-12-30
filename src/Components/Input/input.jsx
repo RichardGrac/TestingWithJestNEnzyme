@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {guessWord} from '../../redux/Success/actions'
+import {guessWord} from '../../helpers/GuessWordCompare'
 import languageContext from '../../context/LanguageContext'
 import getStringByLanguage from '../../helpers/languages'
 import {useSuccess} from '../../context/SuccessContext'

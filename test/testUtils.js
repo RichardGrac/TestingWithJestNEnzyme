@@ -1,16 +1,7 @@
 import {mount, shallow} from 'enzyme'
 import React from 'react'
 import {assertPropTypes} from 'check-prop-types'
-
-import rootReducer from '../src/redux';
-import {createStore, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk'
-
-export const storeFactory = (initialState) => {
-    // return createStore(rootReducer, initialState, applyMiddleware(thunk))
-    const createStoreWithMiddleware = applyMiddleware(thunk)(createStore)
-    return createStoreWithMiddleware(rootReducer, initialState)
-}
+import {GuessedWordsProvider} from '../src/context/GuessedWordsContext'
 
 export const setUp = (Component, props = {}, state = null) => {
     const s = shallow(<Component {...props}/>)
@@ -32,6 +23,20 @@ export const setUpWithContextPattern = (Component, Provider, providerValue, prop
     const s = mount(
         <Provider value={[...providerValue]}>
             <Component {...props} />
+        </Provider>
+    )
+    if (state) s.setState(state)
+    return s
+}
+
+export const setUpWithContextPatternAndGuessWordsProvider = (
+    Component, Provider, providerValue, guessWordsProviderValue, props = {}, state = null
+) => {
+    const s = mount(
+        <Provider value={[...providerValue]}>
+            <GuessedWordsProvider value={guessWordsProviderValue}>
+                <Component {...props} />
+            </GuessedWordsProvider>
         </Provider>
     )
     if (state) s.setState(state)

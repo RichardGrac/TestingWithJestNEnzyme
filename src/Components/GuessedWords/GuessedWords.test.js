@@ -1,8 +1,12 @@
 import React, {useContext} from 'react'
-import {setUp, findByTestAttr, checkProps} from '../../../test/testUtils'
+import {setUp, findByTestAttr, checkProps, setUpWithContextPattern} from '../../../test/testUtils'
+import languageContext from '../../context/LanguageContext'
 
 import GuessedWords from './GuessedWords'
 import getStringByLanguage from '../../helpers/languages'
+import {GuessedWordsProvider} from '../../context/GuessedWordsContext'
+import {mount} from 'enzyme'
+import {GuessedWordsContext} from '../../context/GuessedWordsContext'
 
 const defaultProps = {
     guessedWords: [
@@ -19,8 +23,10 @@ test('does not throw warning with expected props', () => {
 
 describe('if there are no words guessed', () => {
     let wrapper
+    const providerValue = [[], jest.fn()]
+
     beforeEach(() => {
-        wrapper = setUp(GuessedWords, {guessedWords: []})
+        wrapper = setUpWithContextPattern(GuessedWords, GuessedWordsProvider, providerValue)
     })
 
     test('renders without error', () => {
@@ -38,8 +44,10 @@ describe('if there are no words guessed', () => {
 describe('if there are words guessed', () => {
 
     let wrapper
+    const providerValue = [[...defaultProps.guessedWords], jest.fn()]
+
     beforeEach(() => {
-        wrapper = setUp(GuessedWords, defaultProps)
+        wrapper = setUpWithContextPattern(GuessedWords, GuessedWordsProvider, providerValue)
     })
 
     test('renders without error', () => {
@@ -59,25 +67,34 @@ describe('if there are words guessed', () => {
 })
 
 describe('Language context for GuessedWords', () => {
-    beforeEach(() => {
-        React.useContext = jest.fn().mockReturnValue('es')
-    })
 
-    afterEach(() => {
-        React.useContext = require('react').useContext
-    })
+    let wrapper
 
     test('Guess prompt in ES', () => {
-        const wrapper = setUp(GuessedWords, {guessedWords: []})
+        wrapper = mount(
+            <languageContext.Provider value={'es'}>
+                <GuessedWordsContext.Provider value={[[], jest.fn()]}>
+                    <GuessedWords />
+                </GuessedWordsContext.Provider>
+            </languageContext.Provider>
+        )
+
         const component = findByTestAttr(wrapper, 'guessedWords-component')
         expect(component.text())
             .toContain(getStringByLanguage('es', 'guessPrompt'))
     })
 
     test('Guessed Words in ES', () => {
-        const wrapper = setUp(GuessedWords, defaultProps)
+        wrapper = mount(
+            <languageContext.Provider value={'es'}>
+                <GuessedWordsContext.Provider value={[[...defaultProps.guessedWords], jest.fn()]}>
+                    <GuessedWords />
+                </GuessedWordsContext.Provider>
+            </languageContext.Provider>
+        )
+
         const component = findByTestAttr(wrapper, 'guess-column-header')
         expect(component.text())
-            .toContain(getStringByLanguage('es', 'guessColumnHeader'))
+            .toContain(getStringByLanguage('es', 'guessTableHeader'))
     })
 })

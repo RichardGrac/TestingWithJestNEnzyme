@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './App.css';
 import Congrats from "./Components/Congrats/Congrats";
 import GuessedWords from "./Components/GuessedWords/GuessedWords";
@@ -12,59 +12,51 @@ import axios from 'axios'
 import {SECRET_WORD_API} from './shared'
 import getStringByLanguage from './helpers/languages'
 
-export class App extends Component {
+export const App = () => {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            language: 'en',
-            secretWord: ''
-        }
-    }
+    const [language, setLanguage] = React.useState('en')
+    const [secretWord, setSecretWord] = React.useState('')
 
-    componentDidMount() {
-        this.getSecretWord()
-    }
+    React.useEffect(() => {
+        getSecretWord()
+    }, [])
 
-    async getSecretWord() {
+    const getSecretWord = async () => {
         axios.get(SECRET_WORD_API)
             .then(response => {
-                this.setState({secretWord: response.data.randomWord})
+                setSecretWord(response.data.randomWord)
             })
             .catch(error => {
                 console.error(error)
-                this.setState({secretWord: 'Word Not retrieved'})
+                setSecretWord('Word Not retrieved')
             })
     }
 
-    changeLanguage = lang => {
-        this.setState({language: lang})
+    const changeLanguage = lang => {
+        setLanguage(lang)
     }
 
-    resetGame = () => {
-        this.getSecretWord()
+    const resetGame = () => {
+        getSecretWord()
     }
 
-    render() {
-        const {language, secretWord} = this.state
-        return (
-            <languageContext.Provider value={language}>
-                <div className="App container">
-                    <h1 className={'text-center'}>The App</h1>
-                    <LanguagePicker setLanguage={this.changeLanguage} />
-                    <small>{getStringByLanguage(language, 'helpSecretWord')}: {secretWord}</small>
-                    <GuessedWordsProvider>
-                        <SuccessProvider>
-                            <Congrats resetGame={this.resetGame} />
-                            <Input secretWord={secretWord} />
-                        </SuccessProvider>
-                        <GuessedWords />
-                        <TotalGuesses />
-                    </GuessedWordsProvider>
-                </div>
-            </languageContext.Provider>
-        )
-    }
+    return (
+        <languageContext.Provider value={language}>
+            <div className="App container" data-test={'app-component'}>
+                <h1 className={'text-center'}>The App</h1>
+                <LanguagePicker setLanguage={changeLanguage} />
+                <small>{getStringByLanguage(language, 'helpSecretWord')}: {secretWord}</small>
+                <GuessedWordsProvider>
+                    <SuccessProvider>
+                        <Congrats resetGame={resetGame} />
+                        <Input secretWord={secretWord} />
+                    </SuccessProvider>
+                    <GuessedWords />
+                    <TotalGuesses />
+                </GuessedWordsProvider>
+            </div>
+        </languageContext.Provider>
+    )
 }
 
 export default App

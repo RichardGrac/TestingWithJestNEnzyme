@@ -1,10 +1,10 @@
-import {getLetterMatchCount} from '../../../helpers'
+import {getLetterMatchCount} from './index'
 
 /**
  * @function guessWord
  * @returns {object} - An object with success and letterMatchCount
  */
-export const guessWord = (guessedWord, secretWord) => {
+export let guessWord = (guessedWord, secretWord) => {
         const letterMatchCount = getLetterMatchCount(guessedWord, secretWord)
         let success = false
 
