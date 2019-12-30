@@ -1,0 +1,13 @@
+.App {
+    background-color: lightgray;
+}
+
+.App:hover {
+    background-color: gray;
+}
+
+@media (min-width: 500px) {
+    .App {
+        background-color: beige;
+    }
+}
