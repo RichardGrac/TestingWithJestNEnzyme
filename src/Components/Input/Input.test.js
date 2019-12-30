@@ -1,18 +1,14 @@
 import React from 'react'
 import {
     findByTestAttr,
-    setUpWithContext,
     setUpWithContextPatternAndGuessWordsProvider,
-    storeFactory
 } from "../../../test/testUtils";
-import InputDefault, {Input} from "./input";
-import {mount, shallow} from 'enzyme'
+import {Input} from "./input";
+import {mount} from 'enzyme'
 import {languageStrings} from '../../helpers/languages'
 import languageContext from '../../context/LanguageContext'
 import {SuccessProvider} from '../../context/SuccessContext'
-import {guessWord} from '../../helpers/GuessWordCompare'
 import {GuessedWordsContext} from '../../context/GuessedWordsContext'
-import Congrats from '../Congrats/Congrats'
 
 describe('Input field tests, word not guessed', () => {
 
@@ -69,35 +65,34 @@ describe('Input field tests, word guessed', () => {
 describe('Submit test', () => {
     const anArgument = 'Test arg'
     let inputComponent
+    let verifyButton
     let wrapper
+    let success = false
+    let setSuccess = jest.fn()
 
     beforeEach(() => {
-        // guessWordACMock = jest.fn()
-        // guessWord = guessWordACMock
         let guessedWordsProviderMock = [[], jest.fn()]
 
         wrapper = setUpWithContextPatternAndGuessWordsProvider(
-            Input, SuccessProvider, [false, jest.fn()], guessedWordsProviderMock, {secretWord: 'walk'}
+            Input, SuccessProvider, [success, setSuccess], guessedWordsProviderMock, {secretWord: 'walk'}
         )
 
         inputComponent = findByTestAttr(wrapper, 'guess-input')
-        inputComponent.simulate('change', {target: {value: anArgument}})
+        verifyButton = findByTestAttr(wrapper, 'verification-button')
 
-        const verifyButton = findByTestAttr(wrapper, 'verification-button')
+        inputComponent.simulate('change', {target: {value: anArgument}})
         verifyButton.simulate('click', { preventDefault() {} })
     })
-
-    // test('It should call `guessWord` A.C. when click the Verify button', () => {
-    //     expect(guessWordACMock.mock.calls.length).toBe(1)
-    // })
-    //
-    // test('`guessWord` A.C. receives same word as type in input', () => {
-    //     expect(guessWordACMock.mock.calls[0]).toEqual([anArgument, 'walk'])
-    // })
 
     test('Text box is clean after Submit', () => {
         inputComponent = findByTestAttr(wrapper, 'guess-input')
         expect(inputComponent.props().value).toBe('')
+
+        inputComponent.simulate('change', {target: {value: 'walk'}})
+        verifyButton.simulate('click', { preventDefault() {} })
+
+        expect(setSuccess.mock.calls.length).toBe(1)
+        expect(setSuccess.mock.calls[0]).toEqual([true])
     })
 })
 
